@@ -20,14 +20,16 @@ dynamic short URL once a real domain is set.
 |---|---|---|---|
 | Manufacturer details | `scripts/gen-qr.mjs` | `public/qr-manufacturer.svg` / `.png` | `…/Manufacturer-Details-373c8079…` |
 | Protein powder | `scripts/gen-qr-protein.mjs` (`npm run qr:protein`) | `public/qr-protein.svg` / `.png` | `…/Manufacturer-details-Protein-3bfc8079…` |
-| Website (thegoodbug.com) | `scripts/gen-qr-website.mjs` (`npm run qr:website`) | `public/qr-website.svg` / `.png` | `https://thegoodbug.com/` |
+| Shop / all collections | `scripts/gen-qr-website.mjs` (`npm run qr:website`) | `public/qr-website.svg` / `.png` | `https://thegoodbug.com/collections/all` |
 
 Shared design: round data dots (r=0.42 module), rounded-square finder eyes, circular
-clear zone in the center, error correction level **H**. The protein and website QRs embed
-the real `Logo_TGB.svg` (cropped to its ink box); the older manufacturer QR uses a
-Helvetica "TGB" text wordmark. The website URL is short enough to fit a 29×29 grid, so
-that script uses a slightly smaller logo (0.24 of grid width, pad 1.0) to keep the cleared
-fraction low on the small symbol.
+clear zone in the center, error correction level **H**, logo box 0.26 of grid width with
+pad 1.6. The protein and website QRs embed the real `Logo_TGB.svg` (cropped to its ink
+box); the older manufacturer QR uses a Helvetica "TGB" text wordmark.
+
+If a URL ever gets short enough to drop to a small grid (29×29 or below), shrink the logo
+(e.g. 0.24 / pad 1.0) so the cleared circle stays a modest fraction of the symbol — the
+clear zone scales with the grid, so a fixed ratio eats proportionally more of a small one.
 
 Two gotchas when editing these scripts:
 - Only skip the three **7×7** finder squares when drawing dots. Skipping 9×9 also erases

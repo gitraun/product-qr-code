@@ -1,12 +1,12 @@
-// The Good Bug website QR code — same design language as the protein QR
-// (round dots, rounded finder eyes, cleared center zone, TGB vector logo).
+// The Good Bug shop QR code (all collections) — same design language as the
+// protein QR (round dots, rounded finder eyes, cleared center zone, TGB logo).
 // Run with: node scripts/gen-qr-website.mjs   (npm run qr:website)
 
 import QRCode from 'qrcode'
 import sharp from 'sharp'
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 
-const url = 'https://thegoodbug.com/'
+const url = 'https://thegoodbug.com/collections/all'
 
 const FG = '#000000'
 const BG = '#ffffff'
@@ -41,12 +41,9 @@ const inFinder = (r, c) =>
 // to that ink box so the glyphs fill the clear zone instead of floating in it.
 const LOGO_VIEWBOX = '40.4 87 200.3 105.9'
 const LOGO_ASPECT = 105.9 / 200.3
-// This URL is short, so the symbol is a small grid — keep the logo a touch
-// smaller in relative terms than on the protein QR so the cleared fraction of
-// the symbol stays well inside what level H can recover.
-const logoW = size * 0.24
+const logoW = size * 0.26
 const logoH = logoW * LOGO_ASPECT
-const pad = 1.0 // clear space (module units) around the logo box
+const pad = 1.6 // clear space (module units) around the logo box
 const clearR = Math.hypot(logoW / 2, logoH / 2) + pad
 const inClearZone = (r, c) => {
   const dx = off + c + 0.5 - center
@@ -92,8 +89,8 @@ const logo = `
   </svg>`
 
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${total} ${total}">
-  <title>The Good Bug Website QR Code</title>
-  <desc>Scan to visit thegoodbug.com</desc>
+  <title>The Good Bug Shop QR Code</title>
+  <desc>Scan to browse all products at thegoodbug.com</desc>
   <rect width="${total}" height="${total}" fill="${BG}"/>
   <g fill="${FG}">${dots}</g>
   ${eyes}
