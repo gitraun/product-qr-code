@@ -11,6 +11,32 @@ The QR codes currently point to the **Manufacturer Details** page. Seeded in the
 `${NEXT_PUBLIC_BASE_URL}/p/manufacturer`. Destination:
 https://wonderful-scabiosa-e45.notion.site/Manufacturer-Details-373c8079916d800c8f0deb0049c34ad3
 
+## Printed QR assets (static, Notion URL encoded directly)
+The label artwork in `public/` does **not** go through `/p/[slug]` — it encodes the
+Notion URL directly, because `NEXT_PUBLIC_BASE_URL` is still localhost. Switch to the
+dynamic short URL once a real domain is set.
+
+| Product | Script | Files | Encodes |
+|---|---|---|---|
+| Manufacturer details | `scripts/gen-qr.mjs` | `public/qr-manufacturer.svg` / `.png` | `…/Manufacturer-Details-373c8079…` |
+| Protein powder | `scripts/gen-qr-protein.mjs` (`npm run qr:protein`) | `public/qr-protein.svg` / `.png` | `…/Manufacturer-details-Protein-3bfc8079…` |
+| Website (thegoodbug.com) | `scripts/gen-qr-website.mjs` (`npm run qr:website`) | `public/qr-website.svg` / `.png` | `https://thegoodbug.com/` |
+
+Shared design: round data dots (r=0.42 module), rounded-square finder eyes, circular
+clear zone in the center, error correction level **H**. The protein and website QRs embed
+the real `Logo_TGB.svg` (cropped to its ink box); the older manufacturer QR uses a
+Helvetica "TGB" text wordmark. The website URL is short enough to fit a 29×29 grid, so
+that script uses a slightly smaller logo (0.24 of grid width, pad 1.0) to keep the cleared
+fraction low on the small symbol.
+
+Two gotchas when editing these scripts:
+- Only skip the three **7×7** finder squares when drawing dots. Skipping 9×9 also erases
+  the separators and *both copies of the format-information modules*, which makes the
+  symbol undecodable — that is the bug in the stray `scripts/generate-qr.mjs`, whose
+  `metlean-manufacturer-qr.svg` output does not decode. Don't use it as a reference.
+- Verify with a real decoder after any change (ZXing, e.g. `npm i --no-save zxing-wasm`).
+  jsQR gives false negatives on dot-style codes.
+
 ## Next.js 16 gotchas (this version)
 - Dynamic `params` is a **Promise** — must be `await`ed in route handlers/pages.
 - `middleware.ts` is deprecated → renamed to `proxy.ts`. (We gate `/admin` via a

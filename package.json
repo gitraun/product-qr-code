@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "qr:protein": "node scripts/gen-qr-protein.mjs",
+    "qr:website": "node scripts/gen-qr-website.mjs"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.11.2",
@@ -27,6 +29,7 @@
     "drizzle-kit": "^0.31.10",
     "eslint": "^9",
     "eslint-config-next": "16.2.7",
+    "sharp": "^0.35.3",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
